@@ -27,7 +27,7 @@ namespace ExchangeRateTracker.Api.Services
 
             var rates = await ParseRatesFromManyDocsByPeriodAsync(ratesByYearDocs, dateFrom, dateTo);
 
-            await UpdateRates(rates);
+            await AddOrUpdateRates(rates);
         }
 
         public async Task SynhronizeForToday()
@@ -37,7 +37,7 @@ namespace ExchangeRateTracker.Api.Services
             if (!result.IsSuccess)
                 throw new SynchronizeException(result.Message);
 
-            await UpdateRates(ApiResponseParserService.TodayRates(result.Result));
+            await AddOrUpdateRates(ApiResponseParserService.TodayRates(result.Result));
         }
 
         /// <summary>
@@ -46,11 +46,25 @@ namespace ExchangeRateTracker.Api.Services
         /// <param name="rates"></param>
         /// <returns></returns>
         /// <exception cref="DbUpdateException"></exception>
-        private async Task UpdateRates(List<ExchangeRate> rates)
+        private async Task AddOrUpdateRates(List<ExchangeRate> rates)
         {
             try
             {
-                _context.ExchangeRates.UpdateRange(rates);
+                foreach (var rate in rates)
+                {
+                    var updRate = await _context.ExchangeRates.FirstOrDefaultAsync(r => r.CurrencyCode == rate.CurrencyCode && r.Date == rate.Date);
+
+                    if (updRate == null)
+                        await _context.AddAsync(rate);
+                    else
+                    {
+                        updRate.Rate = rate.Rate;
+                        updRate.Amount = rate.Amount;
+
+                        _context.Update(updRate); 
+                    }
+                }
+
                 await _context.SaveChangesAsync();
             }
             catch

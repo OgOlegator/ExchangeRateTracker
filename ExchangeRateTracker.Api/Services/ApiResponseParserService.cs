@@ -56,7 +56,7 @@ namespace ExchangeRateTracker.Api.Services
                 var rowVals = row.Split("|");
                 var dateRate = DateOnly.Parse(rowVals[0]);
 
-                if (dateRate <= dateFrom && dateRate >= dateTo)
+                if (dateRate >= dateFrom && dateRate <= dateTo)
                     foreach (var columnHeader in header.Where(column => allowedCurrencies.Contains(column.Value[1])))
                         result.Add(new ExchangeRate
                         {

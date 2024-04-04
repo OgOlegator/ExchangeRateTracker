@@ -20,7 +20,7 @@ namespace ExchangeRateTracker.Api.Controllers
         /// <summary>
         /// Настройка запуска авто синхронизации курсов
         /// </summary>
-        /// <param name="intervalType"></param>
+        /// <param name="dayInterval"></param>
         /// <param name="time"></param>
         /// <returns></returns>
         [HttpPost]
