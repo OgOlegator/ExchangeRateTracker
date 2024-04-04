@@ -11,10 +11,12 @@ namespace ExchangeRateTracker.Api.Controllers
     public class RateTrackerController : ControllerBase
     {
         private readonly ISynchronizeRatesService _synchronizeService;
+        private readonly IReportService _reportService;
 
-        public RateTrackerController(ISynchronizeRatesService synchronizeService)
+        public RateTrackerController(ISynchronizeRatesService synchronizeService, IReportService reportService)
         {
             _synchronizeService = synchronizeService;
+            _reportService = reportService;
         }
 
         /// <summary>
@@ -99,14 +101,34 @@ namespace ExchangeRateTracker.Api.Controllers
         /// Получить отчет по валютам. Валюты перечисляются через &
         /// </summary>
         /// <param name="currencies"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
         /// <returns></returns>
+        /// <exception cref="FormatException"></exception>
         [HttpGet]
-        [Route("Report/{currencies}")]
-        public async Task<IActionResult> GetReport(string currencies)
+        [Route("Report/{currencies} {startDate} {endDate}")]
+        public async Task<IActionResult> GetReport(string currencies, string startDate, string endDate)
         {
-            var currenciesList = currencies.Split('&');
+            try
+            { 
+                var dateFrom = DateOnly.Parse(startDate);
+                var dateTo = DateOnly.Parse(endDate);
 
-            return Ok();
+                if (dateFrom > dateTo)
+                    throw new FormatException();
+
+                var currenciesList = currencies.Split('&').ToList();
+
+                return Ok(await _reportService.GetReportByCurrenciesAsync(currenciesList, dateFrom, dateTo));
+            }
+            catch (FormatException)
+            {
+                return BadRequest("Некорректный формат входных данных");
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

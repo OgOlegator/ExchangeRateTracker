@@ -13,6 +13,7 @@ builder.Services.AddHttpClient<IBankApiService, BankApiService>();
 
 builder.Services.AddTransient<IBankApiService, BankApiService>();
 builder.Services.AddTransient<ISynchronizeRatesService, SynchronizeRatesService>();
+builder.Services.AddTransient<IReportService, ReportService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

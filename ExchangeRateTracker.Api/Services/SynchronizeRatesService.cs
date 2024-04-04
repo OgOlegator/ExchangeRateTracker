@@ -50,6 +50,9 @@ namespace ExchangeRateTracker.Api.Services
         {
             try
             {
+                //Обновить целиком данные в БД испоьзуя _context.ExchangeRates.UpdateRange() не получится, т.к. EF защищается от параллелизма и если запись
+                //с ключом в БД уже есть, то в ней храниться версия и при обновлении строка с измененными данными должна содержать ту же версию. Поэтому нужно
+                //каждую запись обрабатывать отдельно
                 foreach (var rate in rates)
                 {
                     var updRate = await _context.ExchangeRates.FirstOrDefaultAsync(r => r.CurrencyCode == rate.CurrencyCode && r.Date == rate.Date);
