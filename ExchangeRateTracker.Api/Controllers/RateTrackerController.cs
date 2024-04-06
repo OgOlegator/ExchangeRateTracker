@@ -141,7 +141,7 @@ namespace ExchangeRateTracker.Api.Controllers
 
                 var currenciesList = currencies.Split('&').ToList();
 
-                return Ok(await _reportService.GetReportByCurrenciesAsync(currenciesList, dateFrom, dateTo));
+                return Ok(await _reportService.BuildByCurrenciesAsync(currenciesList, dateFrom, dateTo));
             }
             catch (FormatException)
             {

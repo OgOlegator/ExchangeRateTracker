@@ -14,7 +14,7 @@ namespace ExchangeRateTracker.Api.Services
             _context = context;
         }
 
-        public async Task<ReportDto> GetReportByCurrenciesAsync(List<string> currencies, DateOnly dateFrom, DateOnly dateTo)
+        public async Task<ReportDto> BuildByCurrenciesAsync(List<string> currencies, DateOnly dateFrom, DateOnly dateTo)
         {
             var startDate = dateFrom.ToDateTime(new TimeOnly());
             var endDate = dateTo.ToDateTime(new TimeOnly());
