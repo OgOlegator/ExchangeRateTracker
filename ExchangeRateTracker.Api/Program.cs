@@ -14,6 +14,7 @@ builder.Services.AddHttpClient<IBankApiService, BankApiService>();
 builder.Services.AddTransient<IBankApiService, BankApiService>();
 builder.Services.AddTransient<ISynchronizeRatesService, SynchronizeRatesService>();
 builder.Services.AddTransient<IReportService, ReportService>();
+builder.Services.AddTransient<ISettingsAutoSynhronizeService, SettingsAutoSynhronizeService>();
 
 builder.Services.AddControllers();
 

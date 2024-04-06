@@ -12,25 +12,43 @@ namespace ExchangeRateTracker.Api.Controllers
     {
         private readonly ISynchronizeRatesService _synchronizeService;
         private readonly IReportService _reportService;
+        private readonly ISettingsAutoSynhronizeService _settingsService;
 
-        public RateTrackerController(ISynchronizeRatesService synchronizeService, IReportService reportService)
+        public RateTrackerController(ISynchronizeRatesService synchronizeService, IReportService reportService, ISettingsAutoSynhronizeService settingsService)
         {
             _synchronizeService = synchronizeService;
             _reportService = reportService;
+            _settingsService = settingsService;
         }
 
         /// <summary>
         /// Настройка запуска авто синхронизации курсов
         /// </summary>
-        /// <param name="dayInterval"></param>
-        /// <param name="time"></param>
+        /// <param name="dayInterval">Интервал запуска в днях</param>
+        /// <param name="time">Время запуска</param>
         /// <returns></returns>
         [HttpPost]
         [Route("Synchronize/Setting/{dayInterval} {time}")]
         public async Task<IActionResult> ChangeAutoSynchronizeSettings(int dayInterval, string time)
         {
+            try
+            {
+                await _settingsService.ChangeAsync(dayInterval, TimeOnly.Parse(time));
 
-            return Ok();
+                return Ok();
+            }
+            catch (FormatException)
+            {
+                return BadRequest("Некорректный формат входных данных");
+            }
+            catch (ChangeAutoSynhronizeSettingsException ex)
+            {
+                return Conflict(ex.Message);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
 
         /// <summary>

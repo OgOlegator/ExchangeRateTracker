@@ -14,6 +14,9 @@ using static System.Net.WebRequestMethods;
 
 namespace ExchangeRateTracker.AutoSynhronize.Services
 {
+    /// <summary>
+    /// Сервис автозапуска синхронизации курсов
+    /// </summary>
     public class SynhronizeRateSevice
     {
         /// <summary>
