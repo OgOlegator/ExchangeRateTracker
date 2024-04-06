@@ -11,14 +11,15 @@ namespace ExchangeRateTracker.Api.Services
         /// <summary>
         /// Парсинг курсов на сегодняшний день
         /// </summary>
-        /// <param name="ratesDoc">Документ с курсами валют за сегодняшний день</param>
+        /// <param name="ratesDoc">Документ с курсами валют на дату</param>
+        /// <param name="date">Дата курса</param>
         /// <returns></returns>
-        public static List<ExchangeRate> TodayRates(string ratesDoc)
+        public static List<ExchangeRate> RatesByDate(string ratesDoc, DateOnly date)
         {
             var result = new List<ExchangeRate>();
             var rows = ratesDoc.Split('\n');
 
-            var today = DateTime.Now.Date;
+            var rateDate = date.ToDateTime(new TimeOnly());
 
             foreach (var row in rows.Skip(2).SkipLast(1))    //В первых дувх строках Дата и заголовок
             {
@@ -27,7 +28,7 @@ namespace ExchangeRateTracker.Api.Services
                 result.Add(new ExchangeRate
                 {
                     CurrencyCode = rowVals[3],
-                    Date = today,
+                    Date = rateDate,
                     Amount = ConvertStringToDecimal(rowVals[2]),
                     Rate = ConvertStringToDecimal(rowVals[4]),
                 });

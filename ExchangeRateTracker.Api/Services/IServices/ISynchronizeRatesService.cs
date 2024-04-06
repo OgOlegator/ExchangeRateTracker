@@ -6,17 +6,16 @@
     public interface ISynchronizeRatesService
     {
         /// <summary>
-        /// Синхронизировать курсы за сегодня
+        /// Синхронизировать курсы на дату
         /// </summary>
-        /// <returns></returns>
-        Task SynhronizeForToday();
+        /// <param name="date">Дата синхронизации</param>
+        Task SynhronizeByDayAsync(DateOnly date);
 
         /// <summary>
         /// Синхронизировать курсы за период времени
         /// </summary>
-        /// <param name="dateFrom"></param>
-        /// <param name="dateTo"></param>
-        /// <returns></returns>
-        Task SynchronizeByPeriod(DateOnly dateFrom, DateOnly dateTo);
+        /// <param name="dateFrom">Дата с</param>
+        /// <param name="dateTo">Дата по</param>
+        Task SynchronizeByPeriodAsync(DateOnly dateFrom, DateOnly dateTo);
     }
 }

@@ -13,9 +13,11 @@ namespace ExchangeRateTracker.Api.Services.IServices
         Task<ResultDto> SendAsync(string uri);
 
         /// <summary>
-        /// Получить курсы на сегодняшний день
+        /// Получить курсы на дату
         /// </summary>
-        Task<ResultDto> GetRatesTodayAsync();
+        /// <param name="date">Дата</param>
+        /// <returns></returns>
+        Task<ResultDto> GetRatesByDayAsync(DateOnly date);
 
         /// <summary>
         /// Получить курсы за определенный год

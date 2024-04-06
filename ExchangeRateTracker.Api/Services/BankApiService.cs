@@ -19,10 +19,10 @@ namespace ExchangeRateTracker.Api.Services
                 $"https://www.cnb.cz/en/financial_markets/foreign_exchange_market/exchange_rate_fixing/year.txt?year={year}");
         }
 
-        public async Task<ResultDto> GetRatesTodayAsync()
+        public async Task<ResultDto> GetRatesByDayAsync(DateOnly date)
         {
             return await SendAsync(
-                $"https://www.cnb.cz/en/financial_markets/foreign_exchange_market/exchange_rate_fixing/daily.txt?date={DateTime.Now.ToString("dd.MM.yyyy")}");
+                $"https://www.cnb.cz/en/financial_markets/foreign_exchange_market/exchange_rate_fixing/daily.txt?date={date}");
         }
 
         public async Task<ResultDto> SendAsync(string uri)

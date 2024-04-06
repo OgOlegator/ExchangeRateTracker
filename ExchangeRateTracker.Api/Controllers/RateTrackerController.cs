@@ -38,14 +38,18 @@ namespace ExchangeRateTracker.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Route("Synchronize/Today")]
-        public async Task<IActionResult> SynhronizeToday()
+        [Route("Synchronize/ByDate/{date}")]
+        public async Task<IActionResult> SynhronizeByDay(string date)
         {
             try
             {
-                await _synchronizeService.SynhronizeForToday();
+                await _synchronizeService.SynhronizeByDayAsync(DateOnly.Parse(date));
 
                 return Ok();
+            }
+            catch (FormatException)
+            {
+                return BadRequest("Некорректный формат входных данных");
             }
             catch (DbUpdateException)
             {
@@ -64,7 +68,7 @@ namespace ExchangeRateTracker.Api.Controllers
         /// <param name="endDate">Дата по</param>
         /// <returns></returns>
         [HttpPost]
-        [Route("Synchronize/period/{startDate} {endDate}")]
+        [Route("Synchronize/ByPeriod/{startDate} {endDate}")]
         public async Task<IActionResult> SynchronizeByPeriod(string startDate, string endDate)
         {
             try
@@ -75,7 +79,7 @@ namespace ExchangeRateTracker.Api.Controllers
                 if (dateFrom > dateTo)
                     throw new FormatException();
 
-                await _synchronizeService.SynchronizeByPeriod(dateFrom, dateTo);
+                await _synchronizeService.SynchronizeByPeriodAsync(dateFrom, dateTo);
 
                 return Ok();
             }

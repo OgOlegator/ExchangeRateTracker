@@ -21,7 +21,7 @@ namespace ExchangeRateTracker.Api.Services
             _allowedCurrencies = configuration.GetSection("AllowedCurrencies").Get<List<string>>();
         }
 
-        public async Task SynchronizeByPeriod(DateOnly dateFrom, DateOnly dateTo)
+        public async Task SynchronizeByPeriodAsync(DateOnly dateFrom, DateOnly dateTo)
         {
             var ratesByYearDocs = await GetRatesByYearsAsync(GetYearsBetweenDates(dateFrom, dateTo).ToList());
 
@@ -30,14 +30,14 @@ namespace ExchangeRateTracker.Api.Services
             await AddOrUpdateRates(rates);
         }
 
-        public async Task SynhronizeForToday()
+        public async Task SynhronizeByDayAsync(DateOnly date)
         {
-            var result = await _bankApiService.GetRatesTodayAsync();
+            var result = await _bankApiService.GetRatesByDayAsync(date);
 
             if (!result.IsSuccess)
                 throw new SynchronizeException(result.Message);
 
-            await AddOrUpdateRates(ApiResponseParserService.TodayRates(result.Result));
+            await AddOrUpdateRates(ApiResponseParserService.RatesByDate(result.Result, date));
         }
 
         /// <summary>

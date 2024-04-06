@@ -17,7 +17,7 @@ namespace ExchangeRateTracker.AutoSynhronize
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
             {
-                new Service1()
+                new AutoSynhronizeExchRate()
             };
             ServiceBase.Run(ServicesToRun);
         }
