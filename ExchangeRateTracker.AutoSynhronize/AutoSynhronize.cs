@@ -6,6 +6,7 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,7 +25,10 @@ namespace ExchangeRateTracker.AutoSynhronize
         protected override void OnStart(string[] args)
         {
             //Файл по умолчанию будет создан в   "C:\Winnt\System32\"
-            _file = new StreamWriter(new FileStream("C:\\Users\\olegp\\Documents\\AutoSynhronizeExchRatesService\\AutoSynhronizeExchRateService.log",  System.IO.FileMode.Append));
+            _file = new StreamWriter(new FileStream(
+                $"C:\\Users\\olegp\\Documents\\AutoSynhronizeExchRatesService\\AutoSynhronizeExchRateService-{DateTime.Now.ToString("dd.MM.yyyy-hh.mm")}.log",  
+                System.IO.FileMode.Append));
+            
             _file.WriteLine($"{DateTime.Now} - AutoSynhronizeExchRate стартовал");
             _file.Flush();
 
@@ -53,7 +57,21 @@ namespace ExchangeRateTracker.AutoSynhronize
             _file.WriteLine($"{DateTime.Now.ToString("dd.MM.yyyy HH:mm:ss")} Запуск синхронизации");
             _file.Flush();
 
-            synhronizeService.Execute();
+            try
+            {
+                var result = synhronizeService.ExecuteAsync().GetAwaiter();
+
+                result.OnCompleted(() =>
+                {
+                    _file.WriteLine(result.GetResult().Message);
+                    _file.Flush();
+                });
+            }
+            catch (Exception ex)
+            {
+                _file.WriteLine($"Ошибка в процессе синхронизации. {ex.Message}");
+                _file.Flush();
+            }
         }
     }
 }

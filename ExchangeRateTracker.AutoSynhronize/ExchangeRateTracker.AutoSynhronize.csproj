@@ -83,6 +83,7 @@
     <Compile Include="AutoSynhronize.Designer.cs">
       <DependentUpon>AutoSynhronize.cs</DependentUpon>
     </Compile>
+    <Compile Include="Models\ResultSynhronize.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>

@@ -16,6 +16,7 @@ builder.Services.AddTransient<ISynchronizeRatesService, SynchronizeRatesService>
 builder.Services.AddTransient<IReportService, ReportService>();
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -29,9 +30,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
+//Для избежания ошибки проверки сертификата запросы будут идти по http
+//app.UseHttpsRedirection();
 
 app.MapControllers();
 
