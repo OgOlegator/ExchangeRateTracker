@@ -1,7 +1,6 @@
 ﻿using ExchangeRateTracker.Api.Data;
 using ExchangeRateTracker.Api.Models.Dtos;
 using ExchangeRateTracker.Api.Services.IServices;
-using Microsoft.EntityFrameworkCore;
 
 namespace ExchangeRateTracker.Api.Services
 {

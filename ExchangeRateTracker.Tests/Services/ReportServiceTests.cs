@@ -1,16 +1,8 @@
-﻿using Castle.Components.DictionaryAdapter.Xml;
-using ExchangeRateTracker.Api.Data;
+﻿using ExchangeRateTracker.Api.Data;
 using ExchangeRateTracker.Api.Models;
-using ExchangeRateTracker.Api.Models.Dtos;
 using ExchangeRateTracker.Api.Services;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ExchangeRateTracker.Tests.Services
 {

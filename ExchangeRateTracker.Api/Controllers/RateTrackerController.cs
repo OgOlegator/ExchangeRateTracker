@@ -1,6 +1,5 @@
 ﻿using ExchangeRateTracker.Api.Exceptions;
 using ExchangeRateTracker.Api.Services.IServices;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

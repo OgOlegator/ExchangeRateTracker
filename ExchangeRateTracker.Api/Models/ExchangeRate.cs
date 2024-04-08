@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-
+﻿
 namespace ExchangeRateTracker.Api.Models
 {
     public class ExchangeRate
