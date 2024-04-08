@@ -10,7 +10,10 @@ namespace ExchangeRateTracker.Api.Data
         {
         }
 
-        public DbSet<ExchangeRate> ExchangeRates { get; set; }
+        /// <summary>
+        /// Курсы валют. Свойство сделано виртуальным, т.к. Mock может использовать абстрактные или виртуальные типы
+        /// </summary>
+        public virtual DbSet<ExchangeRate> ExchangeRates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

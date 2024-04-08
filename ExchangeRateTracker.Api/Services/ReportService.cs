@@ -14,17 +14,17 @@ namespace ExchangeRateTracker.Api.Services
             _context = context;
         }
 
-        public async Task<ReportDto> BuildByCurrenciesAsync(List<string> currencies, DateOnly dateFrom, DateOnly dateTo)
+        public ReportDto BuildByCurrencies(List<string> currencies, DateOnly dateFrom, DateOnly dateTo)
         {
             var startDate = dateFrom.ToDateTime(new TimeOnly());
             var endDate = dateTo.ToDateTime(new TimeOnly());
 
-            var reportData = await _context.ExchangeRates
+            var reportData = _context.ExchangeRates
                 .Where(rate 
                     => currencies.Contains(rate.CurrencyCode) 
                     && rate.Date >= startDate
                     && rate.Date <= endDate)
-                .ToListAsync();
+                .ToList();
 
             var result = new ReportDto();
 

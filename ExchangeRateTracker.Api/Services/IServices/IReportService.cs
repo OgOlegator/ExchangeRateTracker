@@ -14,6 +14,6 @@ namespace ExchangeRateTracker.Api.Services.IServices
         /// <param name="dateFrom">Дата с</param>
         /// <param name="dateTo">Дата по</param>
         /// <returns></returns>
-        Task<ReportDto> BuildByCurrenciesAsync(List<string> currencies, DateOnly dateFrom, DateOnly dateTo);
+        ReportDto BuildByCurrencies(List<string> currencies, DateOnly dateFrom, DateOnly dateTo);
     }
 }
