@@ -25,6 +25,22 @@ namespace ExchangeRateTracker.Api.Services
                     && rate.Date <= endDate)
                 .ToList();
 
+            if(!reportData.Any())
+            {
+                var lastRateDate = _context.ExchangeRates
+                    .Where(rate
+                        => currencies.Contains(rate.CurrencyCode)
+                        && rate.Date < startDate)
+                    .Max(rate => rate.Date);
+
+                reportData = _context.ExchangeRates
+                .Where(rate
+                    => currencies.Contains(rate.CurrencyCode)
+                    && rate.Date >= startDate
+                    && rate.Date <= endDate)
+                .ToList();
+            }
+
             var result = new ReportDto();
 
             foreach(var groupByCurrency in reportData.GroupBy(rate => rate.CurrencyCode))
