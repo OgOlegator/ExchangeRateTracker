@@ -34,11 +34,10 @@ namespace ExchangeRateTracker.Api.Services
                     .Max(rate => rate.Date);
 
                 reportData = _context.ExchangeRates
-                .Where(rate
-                    => currencies.Contains(rate.CurrencyCode)
-                    && rate.Date >= startDate
-                    && rate.Date <= endDate)
-                .ToList();
+                    .Where(rate
+                        => currencies.Contains(rate.CurrencyCode)
+                        && rate.Date == lastRateDate)
+                    .ToList();
             }
 
             var result = new ReportDto();
